@@ -1,0 +1,64 @@
+import random
+
+code_list = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 
+
+'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', ' ', "'", ",", "."]
+
+scrumbler = [23, 33, 12, 9, 32, 13, 30, 54, 48, 45, 24, 21, 17, 34, 26, 51, 6, 7, 4, 10, 38, 5, 37, 27, 16, 43, 46, 8, 40, 50, 0, 28, 49, 39, 3, 20, 52, 55, 41, 31, 
+
+14, 22, 11, 36, 25, 2, 35, 19, 42, 47, 18, 44, 15, 53, 1, 29]   #スクランブラー
+
+def make_scr():		#新しいスクランブラーを生成
+	newscr = []
+	while len(newscr)<56:
+		can = random.randrange(0,57)
+		if newscr.count(can) == 0:
+			newscr.append(can)
+	return newscr
+
+def numberize(list_object):	#リストを数値化
+	num_list_object = []
+	for i in range(len(list_object)):
+		for u in range(len(code_list)):
+			if list_object[i] == code_list[u]:
+				num_list_object.append(u)
+	return num_list_object
+
+def dev(word):		#文字列をばらす関数
+	dev_word=[]
+	for i in range(len(word)):
+		dev_word.append(word[i])
+	return dev_word
+
+def integ(list_object):	#リストを文字列に戻す
+	word = ""
+	for i in range(len(list_object)):
+		word = word + list_object[i]
+	return word
+
+def wordize(list_object):	#数値を文字に戻す
+	word_list = []
+	for i in range(len(list_object)):
+		word_list.append(code_list[list_object[i]])
+	return word_list
+
+def enigma(genbun, x=0, y=0, z=0):		#エニグマ
+	code_genbun = numberize(dev(genbun))
+	code_ango = []
+
+	rscrumbler = []		#逆転scrumbler生成
+	cnt = 0
+	while len(rscrumbler)<56:
+		for i in range(len(scrumbler)):
+			if cnt == scrumbler[i]:
+				rscrumbler.append(i)
+		cnt = cnt+1
+
+	for i in range(len(code_genbun)):
+		one = scrumbler[(code_genbun[i]+x)%len(code_list)]
+		two = scrumbler[(one+y)%len(code_list)]
+		three = scrumbler[(two+z)%len(code_list)]
+		four = three + 28
+		threex = rscrumbler[(four)%len(code_list)]
+		twox = rscrumbler[(threex-z)%len(code_list)]
+		onex = rscrumbler[(twox-y)%len(code_list)]
