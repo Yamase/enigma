@@ -62,3 +62,14 @@ def enigma(genbun, x=0, y=0, z=0):		#エニグマ
 		threex = rscrumbler[(four)%len(code_list)]
 		twox = rscrumbler[(threex-z)%len(code_list)]
 		onex = rscrumbler[(twox-y)%len(code_list)]
+		code_ango.append(onex-x)
+		z = z + 1
+		if z>56:
+			y = y+1
+			z = 0
+		if y>56:
+			x = x+1
+			y = 0
+		if x>56:
+			x=0
+	return integ(wordize(code_ango))
